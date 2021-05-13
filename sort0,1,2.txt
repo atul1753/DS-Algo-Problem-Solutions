@@ -1,0 +1,28 @@
+
+#Sort array of 0s, 1s and 2s
+#logic-> if elem is 0 swap with l l++ and m++, 1 then just m++, if 2 then swap with h and h--
+
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int l=0,m=0,h=nums.size()-1;
+        while(m<=h){
+            if(nums[m]==0){
+                int t=nums[m];
+                nums[m]=nums[l];
+                nums[l]=t;
+                l++;
+                m++;
+            }
+            else if(nums[m]==1)
+                m++;
+            else{
+                int t=nums[m];
+                 nums[m]=nums[h];
+                nums[h]=t;
+                h--;
+            }
+        }
+    }
+};

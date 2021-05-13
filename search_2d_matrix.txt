@@ -1,0 +1,50 @@
+
+#search in 2d matrix
+#1 Row wise and col wise sorted. last elem of one row can be < or > first elem of next row
+#start from elem at 0,n-1. move down if curr<target, move up if curr>target
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n=(matrix.size()*matrix[0].size()),i,j;
+        int r=matrix.size();
+        int c=matrix[0].size();
+        int l=0,hi=c-1;
+        while(l<r && hi>=0){
+            if(matrix[l][hi]==target)
+            return 1;
+            else if(matrix[l][hi]>target)
+            hi--;
+            else
+            l++;
+        }
+        return 0;
+    }
+};
+
+#2 Row wise and col wise sorted. last elem of one row is < first elem of next row
+#visualize all elems as elem of one array and do binary search on all as the array will be sorted.
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n=(matrix.size()*matrix[0].size()),i,j;
+        int r=matrix.size();
+        int c=matrix[0].size();
+        int l=0,hi=n-1;
+        while(l<=hi){
+            int mid=l+(hi-l)/2;
+            i=mid/c;
+            j=mid%c;
+            if(matrix[i][j]==target)
+                return true;
+            else if(matrix[i][j]>target){
+                hi=mid-1;
+            }
+            else
+            {
+                l=mid+1;
+            }
+        }
+        return false;
+    }
+};

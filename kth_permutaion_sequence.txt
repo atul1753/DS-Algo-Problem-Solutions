@@ -1,0 +1,30 @@
+
+# K-th Permutaion
+# Brute force will be generate all permutaions and then sort the vector and then return k-1.
+# Try to find digits at individual places, as for each digit will come after k! permutation, so if k is 4, and n=3, first number will always be 2.
+# 1 2 3-> 1+(2,3)->2+(1,3)->3+(1,2) so each will start after 2 factorial numbers. Using this logic
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<int>v;
+        int fact=1;
+        for(int i=1;i<n;i++)
+        {
+            v.push_back(i);
+            fact*=i;
+        }
+        v.push_back(n);
+        string ans="";
+        k=k-1;
+        while(true){
+            ans+=(to_string(v[k/fact]));
+            v.erase(v.begin()+(k/fact));
+            if(v.size()==0)
+                break;
+            k=k%fact;
+            fact=fact/(v.size());
+        }
+        return ans;
+    }
+};

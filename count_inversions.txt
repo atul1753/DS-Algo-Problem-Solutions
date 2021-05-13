@@ -1,0 +1,47 @@
+
+#Count Inversions. a[i]>a[j] such tha i<j
+#Merge sort method
+#During merge, when left[i]>right[j], do count+=mid-l;
+
+lass Solution{
+  public:
+    // arr[]: Input Array
+    // N : Size of the Array arr[]
+    // Function to count inversions in the array.
+    long long int merge(long long int a[],long long int l, long long int m, long long int r,long long int temp[]){
+        long long int i=l;
+        long long int j=m;
+        long long int k=l,inv=0;
+        while(i<=m-1 && j<=r){
+            if(a[i]<=a[j])
+            temp[k++]=a[i++];
+            else{
+                temp[k++]=a[j++];
+                inv+=(m-i);
+            }
+        }
+        while(i<=m-1)
+        temp[k++]=a[i++];
+        while(j<=r)
+        temp[k++]=a[j++];
+        for(int i=l;i<=r;i++)
+        a[i]=temp[i];
+        return inv;
+    }
+    long long int mergesort(long long int a[],long long int l,long long int r,long long int temp[]){
+        long long int mid,inv=0;
+        if(r>l){
+            mid=(r+l)/2;
+            inv+=mergesort(a,l,mid,temp);
+            inv+=mergesort(a,mid+1,r,temp);
+            inv+=merge(a,l,mid+1,r,temp);
+        }
+        return inv; 
+    }
+    long long int inversionCount(long long arr[], long long N)
+    {
+        long long int temp[N];
+        return(mergesort(arr,0,N-1,temp));
+    }
+
+};

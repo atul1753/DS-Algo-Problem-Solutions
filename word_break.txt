@@ -1,0 +1,61 @@
+
+#Word Break
+#Recursive
+class Solution {
+public:
+    bool check(string s,unordered_map<string,int>&m){
+        string s1="";
+        for(int i=0;i<s.length();i++){
+            s1+=s[i];
+            if(m.find(s1)!=m.end()){
+                size_t found=s.find(s1);
+                if(found != string::npos){
+                    int ind=found+s1.length();
+                    // cout<<ind<<endl;
+                    // cout<<s1<<endl<<s.substr(ind,s.length())<<endl;
+                    if(ind==s.length())
+                        return true;
+                    if(check(s.substr(ind,s.length()),m))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_map<string,int>m;
+        for(int i=0;i<wordDict.size();i++)
+            m[wordDict[i]]++;
+        bool ans=check(s,m);
+        return ans;
+    }
+};
+
+#Dp(Memoized)
+class Solution {
+public:
+    bool check(string s,unordered_map<string,int>&m,unordered_map<string,bool>&dp){
+        if(s.empty())
+            return true;
+        if(dp.count(s))
+            return dp[s];
+        for(int i=1;i<=s.length();i++){
+
+            if(m.find(s.substr(0,i))!=m.end()){
+                
+                    if(check(s.substr(i,s.length()),m,dp)){
+                        return (dp[s]=true);
+            }
+        }
+        }
+        return (dp[s]=false);
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_map<string,int>m;
+        unordered_map<string,bool>dp;
+        for(int i=0;i<wordDict.size();i++)
+            m[wordDict[i]]++;
+        bool ans=check(s,m,dp);
+        return ans;
+    }
+};

@@ -1,0 +1,28 @@
+
+#Longest consecutive sequence
+#O(n)->store elems in set or map, then check for any elem where elem-1 is not present in the array.
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        set<int>s;
+        for(int i=0;i<nums.size();i++)
+            s.insert(nums[i]);
+        int c,max_c=0;
+        for(int i=0;i<nums.size();i++){
+            if(!s.count(nums[i]-1)){
+                int num=nums[i];
+                c=1;
+                while(s.count(num+1))
+                {
+                    num++;
+                    c++;
+                }
+                max_c=max(max_c,c);
+            }
+        }
+        return max_c;
+    }
+};
+
+#Complexity is O(n) because while loop will run atmost for n elems only where elem-1 is not present, so for the smallest elem of the sequence

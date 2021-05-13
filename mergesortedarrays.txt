@@ -1,0 +1,61 @@
+
+#Merge two sorted arrays 
+#1 O(m+n)
+
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int k= m+n-1;
+        int i= m-1;
+        int j=n-1;
+        if(i<0 && j<0)
+            return;
+        while(i>=0 && j>=0){
+            if(nums1[i]<nums2[j])
+                nums1[k--]= nums2[j--];
+            else
+                nums1[k--]= nums1[i--];
+        }
+        while(i>=0){
+            nums1[k--]= nums1[i--];
+        }
+        while(j>=0){
+            nums1[k--]= nums2[j--];
+        }
+    }
+};
+
+#2 using insertion sort logic
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i=0,j=0;
+        if(nums2.size()>0){
+        while(i<m){
+            if(nums1[i]>nums2[0]){
+                int temp=nums1[i];
+                nums1[i]=nums2[0];
+                nums2[0]=temp;
+                for(int j=0;j<n-1;j++)
+                {
+                    if(nums2[j]>nums2[j+1]){
+                        int t=nums2[j];
+                        nums2[j]=nums2[j+1];
+                        nums2[j+1]=t;
+                    }
+                }
+            }
+            i++;
+        }
+        for(int i=0;i<nums2.size();i++)
+            nums1[m++]=nums2[i];
+    }
+    }
+};
+
+#3 gap method O(logn)(m)
+gap=(m+n)/2+(m+n)%2
+i=0
+if(a[i])>a[i+gap])
+the swap
+everytime gap=gap/2

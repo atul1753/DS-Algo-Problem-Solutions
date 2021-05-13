@@ -1,0 +1,22 @@
+
+#Largest subarray with 0 sum
+#use hashmap, store sum at every point
+
+
+int maxLen(int A[], int n)
+{
+    int max_len=0,sum=0;
+    map<int,int>m;
+    for(int i=0;i<n;i++){
+        sum+=A[i];
+        if(sum==0)
+        max_len=(i+1);
+        if(m.find(sum)!=m.end()){
+            auto it=m.find(sum);
+            max_len=max(max_len,(i-it->second));
+        }
+        else
+        m[sum]=i;
+    }
+    return max_len;
+}

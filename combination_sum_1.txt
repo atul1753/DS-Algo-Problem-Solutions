@@ -1,0 +1,28 @@
+
+# Combination Sum 1[2,3,6,7], target->7, ans=[2,2,3],[7]
+# base logic, take the elem or not take it. 
+
+class Solution {
+public:
+    void find(vector<int>&a,int target, vector<vector<int>>&ans,vector<int>temp,int ind,int sum){
+        if(sum>target)
+            return;
+        if(sum==target){
+            ans.push_back(temp);
+            return;
+        }
+        if(ind>=a.size())
+            return;
+        sum+=a[ind];
+        temp.push_back(a[ind]);
+        find(a,target,ans,temp,ind,sum);
+        temp.pop_back();
+        find(a,target,ans,temp,ind+1,sum-a[ind]);
+}
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>>ans;
+        vector<int>temp;
+        find(candidates,target,ans,temp,0,0);
+        return ans;
+    }
+};

@@ -1,0 +1,45 @@
+#LRU Cache
+#make list and one map, don't forget to put in get
+#In put, first check if the elem is present or not, then check for size
+
+class LRUCache {
+public:
+    list<pair<int,int>>q;
+    unordered_map<int,list<pair<int,int>>::iterator>m;
+    int csize;
+    LRUCache(int capacity) {
+        csize=capacity;
+    }
+    
+    int get(int key) {
+        if(m.find(key)==m.end())
+            return -1;
+        auto it=m[key];
+        int ans=it->second;
+        put(it->first,it->second);
+        return ans;
+    }
+    
+    void put(int key, int value) {
+        if(m.find(key)==m.end()){
+            if(q.size()==csize){
+                pair<int,int>temp=q.back();
+                q.pop_back();
+                auto it=m.find(temp.first);
+                m.erase(it);
+            }
+        }
+        else{
+            q.erase(m[key]);
+        }
+        q.push_front(make_pair(key,value));
+        m[key]=q.begin();
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */

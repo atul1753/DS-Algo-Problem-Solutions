@@ -1,0 +1,22 @@
+
+#Grid unique paths
+#You can move either right or down in matrix. Count total number of ways to reach from 0,0 to m,n
+#Memoized solution
+
+class Solution {
+public:
+    int cal(int m,int n,int i,int j,vector<vector<int>>&dp){
+        if(i>m || j>n)
+            return 0;
+        if(i==m && j==n)
+            return 1;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        return(dp[i][j]=cal(m,n,i+1,j,dp)+cal(m,n,i,j+1,dp));
+    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>>dp(m,vector<int>(n,-1));
+        int ans=cal(m-1,n-1,0,0,dp);
+        return ans;
+    }
+};

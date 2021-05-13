@@ -1,0 +1,19 @@
+
+# Longest Substring withour repaeting chars
+# best sol->check if char is present in map, if present then move left to pos of char+1
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int left=0,right=0,n=s.length(),ans=0;
+        vector<int>v(256,-1);
+        while(right<n){
+            if(v[s[right]]!=-1)
+            left=max(left,v[s[right]]+1);
+            ans=max(ans,(right-left+1));
+            v[s[right]]=right;
+            right++;
+        }
+        return ans;
+    }
+};

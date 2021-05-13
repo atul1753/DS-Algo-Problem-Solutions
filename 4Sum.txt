@@ -1,0 +1,44 @@
+
+# 4 Sum
+# Best solution->O(n^3),O(1)
+#Sort the vector, run 2 loops, i,j, now use 2 pointers within the loops, target becomes target-nums[i]-nums[j]
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>>res;
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n-1;j++){
+                int low=j+1;
+                int hi=n-1;
+                int target1=target-nums[i]-nums[j];
+                while(low<hi){
+                    int sum=nums[low]+nums[hi];
+                    if(sum<target1)
+                        low++;
+                    else if(sum>target1)
+                        hi--;
+                    else{
+                        vector<int>v(4,0);
+                        v[0]=nums[i];
+                        v[1]=nums[j];
+                        v[2]=nums[low];
+                        v[3]=nums[hi];
+                        res.push_back(v);
+                        while(low<n && nums[low]==v[2])
+                            ++low;
+                        while(hi>j && nums[hi]==v[3])
+                            --hi;
+                    }
+                }
+                while(j<n-1 && nums[j]==nums[j+1])
+                    ++j;
+            }
+            while(i<n-1 && nums[i]==nums[i+1])
+               ++i;
+        }
+        return res;
+    }
+};

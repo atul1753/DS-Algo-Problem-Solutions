@@ -1,0 +1,45 @@
+
+#Reverse Pairs, count pairs such that a[i]>2*a[j] such that i<j
+#Use merge sort, while merging check for all i, the greatest j for which a[i]>2*a[j], then do c+=(j-mid), naturally all coming i++ elems will be > 2*a[j]
+
+class Solution {
+public:
+    int merge(vector<int>&nums,vector<int>&temp,int l,int mid,int r){
+        int i=l,j=mid,k=l,c=0;
+        for(int i=l;i<=(mid-1);i++){
+            while(j<=r && nums[i]>(long)2*nums[j])
+            {
+                j++;
+            }
+            c+=(j-mid);
+        }
+        i=l,j=mid,k=l;
+        while(i<=(mid-1) && j<=r){
+            if(nums[i]<nums[j])
+                temp[k++]=nums[i++];
+            else
+                temp[k++]=nums[j++];
+        }
+        while(i<=(mid-1))
+            temp[k++]=nums[i++];
+        while(j<=r)
+            temp[k++]=nums[j++];
+        for(i=l;i<=r;i++)
+            nums[i]=temp[i];
+        return c;
+    }
+    int mergesort(vector<int>&nums,vector<int>&temp,int l,int r){
+        int c=0;
+        if(r>l){
+            int mid=l+(r-l)/2;
+            c+=mergesort(nums,temp,l,mid);
+            c+=mergesort(nums,temp,mid+1,r);
+            c+=merge(nums,temp,l,mid+1,r);
+        }
+        return c;
+    }
+    int reversePairs(vector<int>& nums) {
+        vector<int>temp(nums.size());
+        return(mergesort(nums,temp,0,nums.size()-1));
+    }
+};

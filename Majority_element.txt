@@ -1,0 +1,24 @@
+
+#Majority element(count>n/2)
+#best solution->count++ whenever ans==nums[i], else count--, if count ==0, then change the ans to nums[i]
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int ans=nums[0],count=1;
+        for(int i=1;i<nums.size();i++){
+            if(ans==nums[i]){
+                count++;
+            }
+            else{
+                count--;
+                if(count==0)
+                {
+                    ans=nums[i];
+                    count++;
+                }
+            }
+        }
+        return ans;
+    }
+};

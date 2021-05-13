@@ -1,0 +1,32 @@
+
+# Revrese linked list
+# Iterative
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode *new_head=NULL;
+        while(head){
+            ListNode *temp=head->next;
+            head->next=new_head;
+            new_head=head;
+            head=temp;
+        }
+        return new_head;
+    }
+};
+
+# Recursive
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode *rev_rest=reverseList(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return rev_rest;
+    }
+};
+

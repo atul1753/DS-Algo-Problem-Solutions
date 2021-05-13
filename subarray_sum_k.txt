@@ -1,0 +1,22 @@
+
+# Subarray sum=k
+#total no. of continuous subarray with sum=k
+#make a hashmap, insert (0,1), iterate everytime do sum+=a[i], check if sum-k is present or not, if present do count+=m[sum-k], else m[sum]++
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int,int>m;
+        m[0]=1;
+        int c=0,sum=0;
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            if(m.find(sum-k)!=m.end()){
+               auto it=m.find(sum-k);
+               c+=(it->second);
+            }
+            m[sum]++;
+        }
+        return c;
+    }
+};

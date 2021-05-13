@@ -1,0 +1,89 @@
+
+#Find the valid and invalid chars(Google question). A string is given and a dictionary is given. The string which is present in dict is valid
+#Recursive
+#include <bits/stdc++.h>
+using namespace std;
+void calc(string s,map<string,int>&m,vector<string>&ans){
+	// cout<<s<<endl;
+	for(int i=0;i<=s.length();i++){
+		// cout<<s.substr(0,i)<<endl;
+		if(m.find(s.substr(0,i))!=m.end()){
+			ans.push_back(s.substr(0,i));
+			auto it=m.find(s.substr(0,i));
+			m.erase(it);
+			if(i+1<=s.length())
+			calc(s.substr(i+1,s.length()),m,ans);
+		}
+		else if(i+1<=s.length())
+		calc(s.substr(i+1,s.length()),m,ans);
+	}
+}
+int main() {
+	string s="coronacasesinindiaarerising";
+	// string s="cor";
+	// cout<<s.substr(0,s.length());
+	map<string,int>m;
+	m["corona"]=1;
+	m["rising"]=1;
+	m["india"]=1;
+	// m["cor"]=1;
+	vector<string>ans;
+	calc(s,m,ans);
+	int c_valid=0,c_invalid;
+	for(int i=0;i<ans.size();i++)
+	{
+		c_valid+=ans[i].length();
+		cout<<ans[i]<<" ";
+	}
+	cout<<endl;
+	c_invalid=s.length()-c_valid;
+	cout<<c_valid<<" "<<c_invalid;
+	return 0;
+}
+
+# DP(Memoization)
+#include <bits/stdc++.h>
+using namespace std;
+void calc(string s,unordered_map<string,int>&m,vector<string>&ans,unordered_map<string,int>&dp){
+	// cout<<s<<endl;
+	if(s.empty())
+	return;
+	if(dp.count(s))
+	return;
+	for(int i=1;i<=s.length();i++){
+		// cout<<s.substr(0,i)<<endl;
+		if(m.find(s.substr(0,i))!=m.end()){
+			ans.push_back(s.substr(0,i));
+			dp[s.substr(0,i)]=1;
+			auto it=m.find(s.substr(0,i));
+			m.erase(it);
+			if(i+1<=s.length())
+			calc(s.substr(i+1,s.length()),m,ans,dp);
+		}
+		else if(i+1<=s.length())
+		calc(s.substr(i+1,s.length()),m,ans,dp);
+	}
+}
+int main() {
+	string s="coronacasesinindiaarerising";
+	// string s="cor";
+	// cout<<s.substr(0,s.length());
+	unordered_map<string,int>m;
+	m["corona"]=1;
+	m["rising"]=1;
+	m["india"]=1;
+	// m["cor"]=1;
+	vector<string>ans;
+	unordered_map<string,int>dp;
+	calc(s,m,ans,dp);
+	int c_valid=0,c_invalid;
+	for(int i=0;i<ans.size();i++)
+	{
+		c_valid+=ans[i].length();
+		cout<<ans[i]<<" ";
+	}
+	cout<<endl;
+	c_invalid=s.length()-c_valid;
+	cout<<c_valid<<" "<<c_invalid;
+	return 0;
+}

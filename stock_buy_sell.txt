@@ -1,0 +1,57 @@
+
+#Stock but sell(single day)
+#O(nlogn) approach using merge sort
+
+class Solution {
+public:
+    int merge(vector<int>&a,vector<int>&temp,int l,int m,int r){
+        int i=l,j=m,k=l;
+        int ans=0;
+        while(i<=(m-1)&&j<=r){
+            if(a[i]<a[j]){
+                ans=max(ans,(a[r]-a[i]));
+                // cout<<a[r]<<" "<<a[i]<<endl;
+                // cout<<l<<" "<<m<<" "<<r<<endl;
+                temp[k++]=a[i++];
+            }
+            else
+                temp[k++]=a[j++];
+        }
+        while(i<=(m-1))
+            temp[k++]=a[i++];
+        while(j<=r)
+            temp[k++]=a[j++];
+        for(int i=l;i<=r;i++)
+            a[i]=temp[i];
+        return ans;
+    }
+    int mergesort(vector<int>&a,vector<int>&temp,int l,int r){
+        if(r>l){
+            int mid=(r+l)/2;
+            int l_ans=mergesort(a,temp,l,mid);
+            int r_ans=mergesort(a,temp,mid+1,r);
+            return(max(max(l_ans,merge(a,temp,l,mid+1,r)),r_ans));
+        }
+        return 0;
+    }
+    int maxProfit(vector<int>& prices) {
+        vector<int>temp(prices.size());
+        return(mergesort(prices,temp,0,prices.size()-1));
+    }
+};
+
+#O(N)
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+       int l_min=prices[0],ans=0;
+       for(int i=1;i<prices.size();i++){
+        if(prices[i]<l_min)
+            l_min=prices[i];
+        else
+            ans=max(ans,prices[i]-l_min);
+       }
+        return ans;
+    }
+};
