@@ -1,0 +1,25 @@
+
+# Print all permutations of array or string
+# Recursively swap i, with curr ind
+
+class Solution {
+public:
+    void find(vector<int>&a,vector<vector<int>>&ans,int ind){
+        if(ind==a.size())
+        {
+            ans.push_back(a);
+            return;
+        }
+        for(int i=ind;i<a.size();i++){
+            swap(a[i],a[ind]);
+            find(a,ans,ind+1);
+            swap(a[i],a[ind]);
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>>ans;
+        vector<int>temp;
+        find(nums,ans,0);
+        return ans;
+    }
+};
