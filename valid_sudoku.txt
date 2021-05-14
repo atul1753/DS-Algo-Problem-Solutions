@@ -1,0 +1,53 @@
+
+# Valid Sudoku
+# Check if the filled positions are valid or not
+# Check for each elem with the 3 conditions
+
+class Solution {
+public:
+    bool issafe(vector<vector<char>>& board,char elem,int i,int j,int m,int n){
+        for(int k=0;k<m;k++){
+           if(k!=i && board[k][j]==elem)
+           {
+               // cout<<k<<" "<<j;
+               return false;
+           }
+        }
+        for(int k=0;k<n;k++){
+            if(k!=j && board[i][k]==elem)
+            {
+                // cout<<i<<" "<<k;
+                return false;
+            }
+        }
+        int t=i/3;
+        int s=j/3;
+        int row=3*t,col=3*s;
+        for(int k=row;k<row+3;k++){
+            for(int l=col;l<col+3;l++){
+                if(k!=i || l!=j){
+                if(board[k][l]==elem)
+                {
+                    // cout<<board[k][l]<<endl;
+                    return false;
+                }
+                }
+            }
+        }
+        return true;
+    }
+    bool isValidSudoku(vector<vector<char>>& board) {
+        int m=board.size();
+        int n=board[0].size();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]!='.' && !issafe(board,board[i][j],i,j,m,n))
+                {
+                    // cout<<board[i][j];
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
