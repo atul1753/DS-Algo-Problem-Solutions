@@ -1,0 +1,42 @@
+
+# Longes Increasing Subsequence
+# O(n^2)-> making a dp array and store LIS for each index
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>dp(n,1);
+        for(int i=0;i<nums.size();i++){
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j])
+                    dp[i]=max(dp[i],1+dp[j]);
+            }
+        }
+        int ans=INT_MIN;
+        for(int i=0;i<nums.size();i++)
+            ans=max(ans,dp[i]);
+        return ans;
+    }
+};
+
+# O(nlogn)->make a dp array and push elems in dp array if curr elem > last elem of dp array. else find it's correct pos by BS and store it there. The length of dp array at end will  # be ans.
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int>dp;
+        for(int i=0;i<nums.size();i++){
+            if(i==0)
+                dp.push_back(nums[i]);
+            else if(nums[i]>dp[dp.size()-1])
+                dp.push_back(nums[i]);
+            else{
+                int pos=lower_bound(dp.begin(),dp.end(),nums[i])-dp.begin();
+                dp[pos]=nums[i];
+            }
+        }
+        return dp.size();
+    }
+};
+

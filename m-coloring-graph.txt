@@ -1,0 +1,37 @@
+
+# M coloring problem
+# We have to return if at most m colors can be sufficient for coloring the vertices of a graph such tha no two adjacent vertices have same color
+# The logic is same as that of N-queens and Sudoku. Check all the colors for all the vertices recursively, if it is valid move on to the next vertex(start from 0).
+# If it return false then, unmark it and move on. If after calculating for all colrs, if none is valid, then return false. Base case is if you reach till end vertex.
+
+bool isvalid(unordered_map<int,int>& map,bool graph[101][101],int i,int k,int v){
+    for(int col=0;col<v;col++){
+        if(graph[i][col]==1){
+            if(map.find(col)!=map.end()){
+                auto it=map.find(col);
+                if(it->second==k)
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool solve(bool graph[101][101],int m, int v,int i,unordered_map<int,int>&map){
+    if(i==v)
+    return true;
+    for(int k=1;k<=m;k++){
+        if(isvalid(map,graph,i,k,v)){
+            map[i]=k;
+            if(solve(graph,m,v,i+1,map))
+            return true;
+            else
+            map.erase(map.find(i));
+        }
+    }
+    return false;
+}
+bool graphColoring(bool graph[101][101], int m, int V)
+{
+    unordered_map<int,int>map;
+    return(solve(graph,m,V,0,map));
+}
