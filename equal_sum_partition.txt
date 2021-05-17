@@ -1,0 +1,52 @@
+
+# Partition Equal Subset Sum
+# Check if there are two subsets with equal sum
+# Check if sum/2 % 2 == 0, if true, then check if there is any subset with sum =sum/2
+# Recursive
+
+class Solution {
+public:
+    bool find(vector<int>& nums, int sum,int ind){
+        if(sum==0)
+            return true;
+        if(ind>=nums.size())
+            return false;
+        return(find(nums,sum-nums[ind],ind+1) || find(nums,sum,ind+1));
+    }
+    bool canPartition(vector<int>& nums) {
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+            sum+=nums[i];
+        if(sum%2!=0)
+            return false;
+        else
+            return(find(nums,sum/2,0));
+    }
+};
+
+# Memoized
+
+class Solution {
+public:
+    bool find(vector<int>& nums, int sum,int ind,vector<vector<int>>&dp){
+        if(ind>=nums.size() || sum<0)
+            return false;
+        if(sum==0 || dp[ind][sum]==1)
+        {
+            return true;
+        }
+        if(dp[ind][sum]!=-1)
+            return dp[ind][sum];
+        return(dp[ind][sum]=find(nums,sum-nums[ind],ind+1,dp) || find(nums,sum,ind+1,dp));
+    }
+    bool canPartition(vector<int>& nums) {
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+            sum+=nums[i];
+        vector<vector<int>>dp(nums.size(),vector<int>((sum/2)+1,-1));
+        if(sum%2!=0)
+            return false;
+        else
+            return(find(nums,sum/2,0,dp));
+    }
+};
