@@ -1,0 +1,50 @@
+
+# Edit Distance
+# Just check for min of insert, delete, subst
+# Recursive
+
+class Solution {
+public:
+    int find(string s1, string s2, int i,int j){
+        if(i==s1.size()||j==s2.size())
+            return(s1.size()+s2.size()-i-j);
+        if(s1[i]==s2[j])
+            return(find(s1,s2,i+1,j+1));
+        else
+        {
+            int insert=find(s1,s2,i+1,j);
+            int delete1=find(s1,s2,i,j+1);
+            int subst=find(s1,s2,i+1,j+1);
+            return(min(insert,min(delete1,subst))+1);
+        }
+    }
+    int minDistance(string word1, string word2) {
+        return(find(word1,word2,0,0));
+    }
+};
+
+# Memoization
+
+class Solution {
+public:
+    vector<vector<int>>dp;
+    int find(string s1, string s2, int i,int j,vector<vector<int>>&dp){
+        if(i==s1.size()||j==s2.size())
+            return(s1.size()+s2.size()-i-j);
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(s1[i]==s2[j])
+            return(dp[i][j]=find(s1,s2,i+1,j+1,dp));
+        else
+        {
+            int insert=find(s1,s2,i+1,j,dp);
+            int delete1=find(s1,s2,i,j+1,dp);
+            int subst=find(s1,s2,i+1,j+1,dp);
+            return dp[i][j] = min({insert, delete1, subst})+1;
+        }
+    }
+    int minDistance(string word1, string word2) {
+        dp = vector<vector<int>>(word1.size()+1, vector<int>(word2.size()+1, -1));
+        return find(word1,word2,0,0,dp);
+    }
+};
