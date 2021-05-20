@@ -1,0 +1,114 @@
+
+# Best time to buy and sell stock (1 time)
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+       int l_min=prices[0],ans=0;
+       for(int i=1;i<prices.size();i++){
+        if(prices[i]<l_min)
+            l_min=prices[i];
+        else
+            ans=max(ans,prices[i]-l_min);
+       }
+        return ans;
+    }
+};
+
+# any number of times
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if(prices.size()<=1)
+            return 0;
+        int ans=0;
+        int l_min=prices[0];
+        for(int i=1;i<prices.size()-1;i++){
+            if(l_min>prices[i]){
+                l_min=prices[i];
+            }
+            else{
+                if(prices[i]>prices[i+1])
+                {
+                    ans+=(prices[i]-l_min);
+                    l_min=prices[i];
+                }
+            }
+        }
+        if(prices[prices.size()-1]>=prices[prices.size()-2])
+            ans+=(prices[prices.size()-1]-l_min);
+        return ans;
+    }
+};
+
+# k times buy and sell
+# Recursive
+
+class Solution {
+public:
+    void find(vector<int>prices,int ind,int &ans,int &z,int &res){
+        // cout<<z<<" ";
+        if(ind>=prices.size()-1)
+            return;
+        // if(ind==prices.size() && k==0)
+        //     return true;
+        if(z>0)
+        {
+        for(int i=ind+1;i<prices.size();i++){
+            if(prices[i]>prices[ind])
+            {
+                ans+=(prices[i]-prices[ind]);
+                z=z-1;
+                find(prices,i+1,ans,z,res);
+                res=max(res,ans);
+                ans-=(prices[i]-prices[ind]);
+                z=z+1;
+            }
+        }
+            find(prices,ind+1,ans,z,res);
+        }
+    }
+    int maxProfit(int k, vector<int>& prices) {
+        if(prices.size()<=1)
+            return 0;
+        int ans=0,res;
+        // cout<<k;
+        int z=k;
+        find(prices,0,ans,z,res);
+        return res;
+    }
+};
+
+# Memoized
+
+class Solution {
+public:
+    int find(vector<int>prices,int ind,int k,vector<vector<int>>&dp){
+        if(ind>=prices.size()-1 || k==0)
+            return 0;
+        if(dp[ind][k]!=-1)
+        {
+            return dp[ind][k];
+        }
+        int ans=0;
+        for(int i=ind+1;i<prices.size();i++){
+            if(prices[i]>prices[ind])
+            {
+                ans=max(ans,(prices[i]-prices[ind])+find(prices,i+1,k-1,dp));
+            }
+            else
+            {
+                ans=max(ans,find(prices,i,k,dp));
+                break;
+            }
+        }     
+        return (dp[ind][k]=ans);  
+    }
+    int maxProfit(int k, vector<int>& prices) {
+        if(prices.size()<=1)
+            return 0;
+        vector<vector<int>>dp(prices.size(),vector<int>(k+1,-1));
+        return find(prices,0,k,dp);;
+    }
+};

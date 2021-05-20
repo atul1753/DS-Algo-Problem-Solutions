@@ -1,0 +1,23 @@
+
+# Consecutive Numbers Sum
+# n/2(2a+(n-1))=m,check for all possbile solutions of this eqn. Number of valid distinct a will be answer. 2a=(2m)/n-n+1. check for all valid divisors of 2m and check if RHS%2==0
+
+class Solution {
+public:
+    int consecutiveNumbersSum(int n) {
+        int m=2*n;
+        int ans=0;
+        for(int i=1;i<=sqrt(m);i++){
+            if(m%i==0){
+                int t=m/i;
+                if(t-i+1>0 && (t-i+1)%2==0)
+                    ans++;
+                int t1=m/t;
+                if(t1-t+1>0 && (t1-t+1)%2==0)
+                    ans++;
+            }
+        }
+        return ans;
+    }
+};
+
