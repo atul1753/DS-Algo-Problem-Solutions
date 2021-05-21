@@ -1,0 +1,69 @@
+
+# Coin Change
+# There will be 3 cases everytime, take the same coin till it crosses the amount, then take the coin and move ahead, and then move ahead without taking the current coin.
+# Recursive
+
+class Solution {
+public:
+    int find(vector<int>& coins,int amount,int i){
+        if(i>=coins.size())
+            return INT_MAX;
+        if(amount<0)
+            return INT_MAX;
+        if(amount==0)
+            return 0;
+        int c1=INT_MAX,c2=INT_MAX,c3=INT_MAX;
+        int l1=find(coins,amount-coins[i],i);
+        int l2=find(coins,amount-coins[i],i+1);
+        int l3=find(coins,amount,i+1);
+        if(l1!=INT_MAX)
+            c1=1+l1;
+        if(l2!=INT_MAX)
+            c2=1+l2;
+        if(l3!=INT_MAX)
+            c3=l3;
+        return(min({c1,c2,c3}));
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int ans=(find(coins,amount,0));
+        if(ans!=INT_MAX)
+            return ans;
+        else
+            return -1;
+    }
+};
+
+# Memoization
+
+class Solution {
+public:
+    int find(vector<int>& coins,int amount,int i,vector<vector<int>>&dp){
+        if(i>=coins.size())
+            return INT_MAX;
+        if(amount<0)
+            return INT_MAX;
+        if(amount==0)
+            return dp[i][amount]=0;
+        if(dp[i][amount]!=-1)
+            return dp[i][amount];
+        int c1=INT_MAX,c2=INT_MAX,c3=INT_MAX;
+        int l1=find(coins,amount-coins[i],i,dp);
+        int l2=find(coins,amount-coins[i],i+1,dp);
+        int l3=find(coins,amount,i+1,dp);
+        if(l1!=INT_MAX)
+            c1=1+l1;
+        if(l2!=INT_MAX)
+            c2=1+l2;
+        if(l3!=INT_MAX)
+            c3=l3;
+        return(dp[i][amount]=min({c1,c2,c3}));
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+        int ans=(find(coins,amount,0,dp));
+        if(ans!=INT_MAX)
+            return ans;
+        else
+            return -1;
+    }
+};
