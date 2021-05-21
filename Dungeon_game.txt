@@ -1,0 +1,108 @@
+
+# Dungeon game
+# Min energy required to reach to m-1,n-1 from 0,0
+# Check for maximum -ve value in each path
+# Recursive
+
+class Solution {
+public:
+    int find(vector<vector<int>>& d,int i,int j,int m,int n){
+        if(i==m || j==n)
+            return -9999;
+        if(i==m-1 && j==n-1)
+            return d[i][j];
+        int l=find(d,i+1,j,m,n);
+        int r=find(d,i,j+1,m,n);
+        if(d[i][j]<=0){
+            if(l<=0 && r<=0)
+                return(max(l,r)+d[i][j]);
+            else if(l>0 && r<=0)
+                return(max(r+d[i][j],d[i][j]));
+            else if(l<=0 && r>0)
+                return(max(l+d[i][j],d[i][j]));
+            else 
+                return(d[i][j]);
+        }
+        else{
+            if(l!=-9999 && r!=-9999 && l<=0 && r<=0)
+                return(max(l,r)+d[i][j]);
+            else if(l==-9999 && r!=-9999)
+            {
+                if(d[i][j]+r<=0)
+                    return d[i][j]+r;
+                else
+                    return 0;
+            }
+            else 
+            {
+                if(d[i][j]+l<=0)
+                    return d[i][j]+l;
+                else
+                    return 0;
+            }
+        }
+    }
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        int m=dungeon.size();
+        int n=dungeon[0].size();
+        int ans=(find(dungeon,0,0,m,n));
+        if(ans<=0)
+        return(abs(ans)+1);
+        else
+            return 1;
+    }
+};
+
+# Memoization
+
+class Solution {
+public:
+    int find(vector<vector<int>>& d,int i,int j,int m,int n,vector<vector<int>>&dp){
+        if(i==m || j==n)
+            return -9999;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(i==m-1 && j==n-1)
+            return dp[i][j]=d[i][j];
+        int l=find(d,i+1,j,m,n,dp);
+        int r=find(d,i,j+1,m,n,dp);
+        if(d[i][j]<=0){
+            if(l<=0 && r<=0)
+                return(dp[i][j]=max(l,r)+d[i][j]);
+            else if(l>0 && r<=0)
+                return(dp[i][j]=max(r+d[i][j],d[i][j]));
+            else if(l<=0 && r>0)
+                return(dp[i][j]=max(l+d[i][j],d[i][j]));
+            else 
+                return(dp[i][j]=d[i][j]);
+        }
+        else{
+            if(l!=-9999 && r!=-9999 && l<=0 && r<=0)
+                return(dp[i][j]=max(l,r)+d[i][j]);
+            else if(l==-9999 && r!=-9999)
+            {
+                if(d[i][j]+r<=0)
+                    return dp[i][j]=d[i][j]+r;
+                else
+                    return dp[i][j]=0;
+            }
+            else 
+            {
+                if(d[i][j]+l<=0)
+                    return dp[i][j]=d[i][j]+l;
+                else
+                    return dp[i][j]=0;
+            }
+        }
+    }
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        int m=dungeon.size();
+        int n=dungeon[0].size();
+        vector<vector<int>>dp(m,vector<int>(n,-1));
+        int ans=(find(dungeon,0,0,m,n,dp));
+        if(ans<=0)
+        return(abs(ans)+1);
+        else
+            return 1;
+    }
+};
