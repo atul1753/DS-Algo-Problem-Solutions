@@ -1,0 +1,55 @@
+
+# Partition to K equal sum subsets
+# Check for all subsets and have track of visited elems
+
+class Solution {
+public:
+    
+    bool helper(vector<int>& nums, int k, vector<bool>&visited, int &sum,int curSum,int start)
+    {
+        if(k==0)
+        {
+            return true;
+        }
+        if(curSum>sum)
+        {
+            return false;
+        }
+        if(curSum==sum)
+        {
+            return helper(nums,k-1,visited,sum,0,0);
+        }
+        
+        bool res{false};
+        for(int i=start;i<nums.size();i++)
+        {
+            if(!visited[i])
+            {
+                visited[i]=true;
+                res|=helper(nums,k,visited,sum,curSum+nums[i],i+1);
+                if(res)
+                {
+                    return true;
+                }
+                visited[i]=false;
+            }
+        }
+        return res;
+    }
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum{0};
+        int maxNum{0};
+        for(auto&num:nums)
+        {
+            sum+=num;
+            maxNum=max(maxNum,num);
+        }
+        if (sum % k != 0 or maxNum > (sum / k)) 
+        {
+            return false;
+        }
+        sum/=k;
+        vector<bool>visited(nums.size());
+        return helper(nums,k,visited,sum,0,0);
+    }
+};
