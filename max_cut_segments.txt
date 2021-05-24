@@ -1,0 +1,35 @@
+
+# Maximize the cut segments
+# Eg. N=4, arr=2,1,1. Ans=4(1x4)
+# If this is the problem, or a price array is also given for cuts, follow the logic of knapsack. The problem is almost same. w is n, length array is wt[] and price[] is val[].
+
+class Solution
+{
+    public:
+    //Function to find the maximum number of cuts.
+    int find(int n,vector<int>&v,int ind,vector<vector<int>>&dp){
+        if(n==0)
+        return 0;
+        if(ind==3 || v[ind]>n)
+        return INT_MIN;
+        if(dp[n][ind]!=-1)
+            return dp[n][ind];
+        if(v[ind]<=n){
+            return dp[n][ind]=(max(1+find(n-v[ind],v,ind,dp),max(1+find(n-v[ind],v,ind+1,dp),find(n,v,ind+1,dp))));
+        }
+    }
+    int maximizeTheCuts(int n, int x, int y, int z)
+    {
+        vector<int>v;
+        v.push_back(x);
+        v.push_back(y);
+        v.push_back(z);
+        sort(v.begin(),v.end());
+        vector<vector<int>>dp(n+1,vector<int>(3,-1));
+        int ans=(find(n,v,0,dp));
+        if(ans<0)
+        return 0;
+        else
+        return ans;
+    }
+};
