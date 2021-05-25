@@ -1,0 +1,68 @@
+
+# Egg drop puzzle
+# Base logic -> check for every floor, there will be two cases, it will break or not. Terminating condition will be when egg=1, then return floors.
+# Recursive
+
+class Solution {
+public:
+    int find(int e,int f){
+        if(f==1 || e==1 || f==0)
+            return f;
+        int ans=INT_MAX;
+        for(int i=1;i<=f;i++)
+            ans=min(ans,1+max(superEggDrop(e-1,i-1),superEggDrop(e,f-i)));
+        return ans;
+    }
+    int superEggDrop(int e, int f) {
+        return find(e,f);
+    }
+};
+
+# Memoized
+
+class Solution {
+public:
+    int find(int e,int f, vector<vector<int>>&dp){
+        if(f==1 || e==1 || f==0)
+            return dp[e][f]=f;
+        if(dp[e][f]!=-1)
+            return dp[e][f];
+        int ans=INT_MAX;
+        for(int i=1;i<=f;i++)
+            ans=min(ans,1+max(superEggDrop(e-1,i-1),superEggDrop(e,f-i)));
+        return dp[e][f]=ans;
+    }
+    int superEggDrop(int e, int f) {
+        vector<vector<int>>dp(e+1,vector<int>(f+1,-1));
+        return find(e,f,dp);
+    }
+};
+
+# Memoized binary search. Every time, we are traversing from 1 to f which is sorted, so we can use binary search
+
+class Solution {
+public:
+    int find(int e,int f, vector<vector<int>>&dp){
+        if(f==1 || e==1 || f==0)
+            return dp[e][f]=f;
+        if(dp[e][f]!=-1)
+            return dp[e][f];
+        int ans=INT_MAX,temp=0,low=1,hi=f;
+        while(low<=hi){
+            int mid=low+(hi-low)/2;
+            int left=find(e-1,mid-1,dp);
+            int right=find(e,f-mid,dp);
+            temp=1+max(left,right);
+            if(left<right)
+                low=mid+1;
+            else
+                hi=mid-1;
+            ans=min(ans,temp);
+        }
+        return dp[e][f]=ans;
+    }
+    int superEggDrop(int e, int f) {
+        vector<vector<int>>dp(e+1,vector<int>(f+1,-1));
+        return find(e,f,dp);
+    }
+};
