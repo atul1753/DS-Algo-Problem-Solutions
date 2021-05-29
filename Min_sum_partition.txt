@@ -1,0 +1,28 @@
+
+# Minimum Sum Partition
+# Logic-> We have to minimize S2-S1, S2=Total_sum-S1, therefore, we have to minimize total_sum-2*S1
+
+# Memoized
+# Subsets 
+# Similar logic as that of palindromic partioning, for each ind, iterate from ind till end.
+
+class Solution {
+public:
+    void find(int ind, vector<vector<int>>& ans, vector<int>& nums, vector<int>& ds){
+        ans.push_back(ds);
+        for(int i=ind;i<nums.size();i++){
+            if(i!=ind && nums[i]==nums[i-1])
+                continue;
+            ds.push_back(nums[i]);
+            find(i+1,ans,nums,ds);
+            ds.pop_back();
+        }
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>>ans;
+        sort(nums.begin(),nums.end());
+        vector<int>ds;
+        find(0,ans,nums,ds);
+        return ans;
+    }
+};  
