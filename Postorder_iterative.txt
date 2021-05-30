@@ -1,0 +1,24 @@
+
+# Postorder->Iterative
+# Maintain 3 states in the stack
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int>ans;
+        stack<pair<TreeNode*,int>>s;
+        s.push({root,0});
+        while(!s.empty()){
+            pair<TreeNode*,int>t=s.top();
+            s.pop();
+            TreeNode* curr=t.first;
+            int state=t.second;
+            if(state==3 || curr==NULL)continue;
+            s.push({curr,state+1});
+            if(state==0)s.push({curr->left,0});
+            else if(state==1)s.push({curr->right,0});
+            else if(state==2)ans.push_back(curr->val);
+        }
+        return ans;
+    }
+};

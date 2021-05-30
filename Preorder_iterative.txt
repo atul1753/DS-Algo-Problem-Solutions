@@ -1,0 +1,22 @@
+
+# Preorder->Iterative
+# No need to maintain any states in preorder, just create stack, pop the elem, print it, then check for right and left
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int>ans;
+        if(!root)
+            return ans;
+        stack<TreeNode*>s;
+        s.push(root);
+        while(!s.empty()){
+            TreeNode* curr=s.top();
+            s.pop();
+            ans.push_back(curr->val);
+            if(curr->right)s.push(curr->right);
+            if(curr->left)s.push(curr->left);
+        }
+        return ans;
+    }
+};
