@@ -1,0 +1,20 @@
+
+# Find single elem in sorted array with only one single elem and all are present twice.
+# Base logic -> If we are in left half(left of single elem), then even index will be first appearance of that elem and if in right half, then even index will be second appearance.
+# If we are in left half, then move to right, if we are right half, then move to left. If index is odd the index^1 will be index-1, if index is even, then index^1 will be index+1.
+# So for each index check index^1 and decide if you are in left or right half accordingly.
+
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int low=0,high=nums.size()-2;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(nums[mid]==nums[mid^1])
+                low=mid+1;
+            else
+                high=mid-1;
+        }
+        return nums[low];
+    }
+};

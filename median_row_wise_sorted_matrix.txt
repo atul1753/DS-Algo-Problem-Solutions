@@ -1,0 +1,23 @@
+
+# Median of row wise sorted matrix
+# Total range is 1 ton 1e9, run binary search over this space and everytime count how many elems are <= current mid by applying binary search in each sorted row.
+# As we know how many elems should an elem be > for it to be median.
+
+int Solution::findMedian(vector<vector<int> > &A) {
+    int high=1e9;
+    int low=1;
+    int c=(A.size()*(A[0].size()));
+    c=c/2;
+    while(low<=high){
+        int mid=(low+high)/2;
+        int cnt=0;
+        for(int i=0;i<A.size();i++){
+            cnt+=(upper_bound(A[i].begin(),A[i].end(),mid)-A[i].begin());
+        }
+        if(cnt<=c)
+            low=mid+1;
+        else
+            high=mid-1;
+    }
+    return low;
+}
