@@ -1,0 +1,28 @@
+
+# Search in rotated sorted array
+# Check if nums[mid]>nums[l], check if elem is present in this half or not. else do low=mid+1. there are two sorted arrays in this rotated sorted array.
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int l=0,hi=nums.size()-1,mid;
+        while(l<=hi){
+            mid=(l+(hi-l)/2);
+            if(nums[mid]==target)
+                return mid;
+            if(nums[mid]>=nums[l]){
+                if(nums[mid]>=target && nums[l]<=target)
+                    hi=mid-1;
+                else
+                    l=mid+1;
+            }
+            else if(nums[mid]<=nums[hi]){
+                if(nums[mid]<=target && nums[hi]>=target)
+                    l=mid+1;
+                else
+                    hi=mid-1;
+            }
+        }
+        return -1;
+    }
+};
