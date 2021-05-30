@@ -1,0 +1,24 @@
+
+# Inorder traversal-> Iterative
+# Make a stack and maintain 3 states for each node. Everytime process one and then increment state.
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>v;
+        stack<pair<TreeNode*,int>>s;
+        s.push({root,0});
+        while(!s.empty()){
+            pair<TreeNode*,int>t=s.top();
+            s.pop();
+            TreeNode *curr=t.first;
+            int state=t.second;
+            if(curr==NULL || state==3)continue;
+            s.push({curr,state+1});
+            if(state==0)s.push({curr->left,0});
+            else if(state==1)v.push_back(curr->val);
+            else if(state==2)s.push({curr->right,0});
+        }
+        return v;
+    }
+};
