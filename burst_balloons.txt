@@ -1,0 +1,26 @@
+
+# Burst balloons-> https://leetcode.com/problems/burst-balloons/
+# Same as MCM, just add 1 at beginning and 1 at end and do the logic of MCM, move from i to j and calaculate for all partitions.
+
+class Solution {
+public:
+    int solve(vector<int>nums,int i,int j,vector<vector<int>>&dp){
+        if(i>=j)
+            return dp[i][j]=0;
+            if(dp[i][j]!=-1)
+            return dp[i][j];
+        int ans=INT_MIN;
+        for(int k=i;k<=j-1;k++){
+            ans=max(ans,solve(nums,i,k,dp)+solve(nums,k+1,j,dp)+(nums[i-1]*nums[k]*nums[j]));
+        }
+        return dp[i][j]=ans;
+    }
+    int maxCoins(vector<int>& nums) {
+        vector<int>a={1};
+        a.insert(a.end(), nums.begin(), nums.end());
+        a.push_back(1);
+        int N=a.size();
+        vector<vector<int>>dp(N+1,vector<int>(N+1,-1));
+        return solve(a,1,N-1,dp);
+    }
+};
