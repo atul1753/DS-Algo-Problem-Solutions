@@ -1,0 +1,30 @@
+# Coin chnage 2->https://leetcode.com/problems/coin-change-2/
+# Count no. of ways to sum to amount using infinite number of coins.
+# Unbounded knapsack, just be careful that you do not have to check for amount-coins[i],i+1 when amount-coins[i,i has yielded >=1
+
+class Solution {
+public:
+    int solve(int amount,vector<int>&coins,int i,vector<vector<int>>&dp){
+        if(amount<0 || i>=coins.size())
+            return 0;
+        if(dp[i][amount]!=-1)
+            return dp[i][amount];
+        if(amount==0)
+            return dp[i][amount]=1;
+        int l1=solve(amount-coins[i],coins,i,dp),l2,l3;
+        if(l1>=1)
+        {
+            l3=solve(amount,coins,i+1,dp);
+            return dp[i][amount]=(l1+l3);
+        }
+        else{
+            l2=solve(amount-coins[i],coins,i+1,dp);
+            l3=solve(amount,coins,i+1,dp);
+            return dp[i][amount]=(l1+l2+l3);
+        }
+    }
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+        return solve(amount,coins,0,dp);
+    }
+};
