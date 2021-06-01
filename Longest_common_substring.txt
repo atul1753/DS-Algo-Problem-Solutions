@@ -1,0 +1,30 @@
+
+# Longest common substring
+# Logic is we have to break when num[m]!=nums[n], res should be 0 at that point. In recursion just go through (m-1,n) and (m,n-1) and do +1 when they are equal else 0.
+
+class Solution {
+public:
+    int solve(vector<int>&nums1,vector<int>&nums2,int m,int n,int &ans,vector<vector<int>>&dp){
+        if(m<=0 || n<=0)
+            return 0;
+        if(dp[m][n]!=-1)
+            return dp[m][n];
+        int l=0;
+        if(nums1[m-1]==nums2[n-1])
+        {
+            l=solve(nums1,nums2,m-1,n-1,ans,dp)+1;
+            ans=max(ans,l);
+        }
+        solve(nums1,nums2,m-1,n,ans,dp);
+        solve(nums1,nums2,m,n-1,ans,dp);
+        return dp[m][n]=l;
+    }
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        int m=nums1.size();
+        int n=nums2.size();
+        int ans=0;
+        vector<vector<int>>dp(m+1,vector<int>(n+1,-1));
+        solve(nums1,nums2,m,n,ans,dp);
+        return ans;
+    }
+};
