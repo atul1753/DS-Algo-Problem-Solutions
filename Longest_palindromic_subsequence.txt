@@ -1,0 +1,43 @@
+
+# Longest Palindromic Subsequence -> https://leetcode.com/problems/longest-palindromic-subsequence
+# One logic is just reverse the given string and find the LCS
+
+class Solution {
+public:
+    int lcs(string a, string b,int m,int n,vector<vector<int>>&dp){
+        if(n<=0 || m<=0)
+            return 0;
+        if(dp[m][n]!=-1)
+            return dp[m][n];
+        if(a[m-1]==b[n-1])
+            return dp[m][n]=1+lcs(a,b,m-1,n-1,dp);
+        return dp[m][n]=max(lcs(a,b,m-1,n,dp),lcs(a,b,m,n-1,dp));
+    }
+    int longestPalindromeSubseq(string s) {
+        string a=s;
+        reverse(a.begin(),a.end());
+        int n=s.length();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        return(lcs(s,a,n,n,dp));
+    }
+};
+
+# Second logic is move through 0 to n-1 with i=0 and j=n-1 and add two if char is equal else do max of i+1,j and i,j-1
+
+class Solution {
+public:
+    int solve(string s,int i,int j,vector<vector<int>>&dp){
+        if(i>j)return 0;
+        if(i==j)return 1;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(s[i]==s[j])
+            return dp[i][j]=2+solve(s,i+1,j-1,dp);
+        return dp[i][j]=max(solve(s,i+1,j,dp),solve(s,i,j-1,dp));
+    }
+    int longestPalindromeSubseq(string s) {
+        int n=s.length(),i=0,j=n-1;
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        return(solve(s,i,j,dp));
+    }
+};
