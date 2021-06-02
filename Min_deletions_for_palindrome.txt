@@ -1,0 +1,21 @@
+
+# Minimum number of deletions to make string palindrome -> https://practice.geeksforgeeks.org/problems/minimum-deletitions1648/1
+# This is very easy, just find Longest palindromic subsequence and do n-LPS
+
+class Solution{
+  public:
+  int solve(string s,int i,int j,vector<vector<int>>&dp){
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(i>j)return dp[i][j]=0;
+        if(i==j)return dp[i][j]=1;
+        if(s[i]==s[j])
+            return dp[i][j]=2+solve(s,i+1,j-1,dp);
+        return dp[i][j]=max(solve(s,i+1,j,dp),solve(s,i,j-1,dp));
+    }
+    int minimumNumberOfDeletions(string s) { 
+        int n=s.length(),i=0,j=n-1;
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        return(n-solve(s,i,j,dp));
+    } 
+};
