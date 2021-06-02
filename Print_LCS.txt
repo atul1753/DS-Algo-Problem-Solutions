@@ -1,0 +1,43 @@
+
+# Print LCS -> https://www.hackerrank.com/challenges/dynamic-programming-classics-the-longest-common-subsequence/problem
+# Fill out the dp table using memoization or tabular method using the logic used for finding length of LCS. Then start from m,n in dp. 
+# Add in ans vector if a[m-1]==b[n-1], else go to max of dp[m-1][n],dp[m][n-1] i.e m-- or n--. Finally reverse the vector.
+
+int lcs(vector<int>&a,vector<int>&b,int m,int n,vector<vector<int>>&dp){
+    if(m<=0 || n<=0)
+    return 0;
+    if(dp[m][n]!=-1)
+        return dp[m][n];
+    if(a[m-1]==b[n-1])
+        return dp[m][n]=1+lcs(a,b,m-1,n-1,dp);
+    return dp[m][n]=max(lcs(a,b,m-1,n,dp),lcs(a,b,m,n-1,dp));
+}
+vector<int> longestCommonSubsequence(vector<int> a, vector<int> b) {
+    int m=a.size();
+    int n=b.size();
+    vector<vector<int>>dp(m+1,vector<int>(n+1,-1));
+    lcs(a,b,m,n,dp);
+    vector<int>ans;
+    int i=m,j=n;
+    while(i>0 && j>0){
+        if(a[i-1]==b[j-1])
+        {
+            ans.push_back(a[i-1]);
+            i--;
+            j--;
+        }
+        else
+        {
+            if(dp[i-1][j]>=dp[i][j-1])
+                {
+                    i--;
+                }
+                else
+                {
+                    j--;
+                }
+        }
+    }
+    reverse(ans.begin(),ans.end());
+    return ans;
+}

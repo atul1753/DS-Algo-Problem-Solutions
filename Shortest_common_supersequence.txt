@@ -1,0 +1,23 @@
+
+# Shortest common supersequence -> https://practice.geeksforgeeks.org/problems/shortest-common-supersequence0322/1
+# We have to find the shortest supersequence which has both the given strings as subsequnces.
+# Key logic is find the lcs of given two strings, and this lcs can be used only once in the supersequence as they are common, so ans will be m+n-lcs
+
+class Solution
+{
+    public:
+    int lcs(char*x,char*y, int m,int n,vector<vector<int>>&dp){
+        if(m<=0 || n<=0)
+            return 0;
+        if(dp[m][n]!=-1)
+            return dp[m][n];
+        if(x[m-1]==y[n-1])
+            return dp[m][n]=1+lcs(x,y,m-1,n-1,dp);
+        return dp[m][n]=max(lcs(x,y,m-1,n,dp),lcs(x,y,m,n-1,dp));
+    }
+    int shortestCommonSupersequence(char* X, char* Y, int m, int n)
+    {
+        vector<vector<int>>dp(m+1,vector<int>(n+1,-1));
+        return(m+n-(lcs(X,Y,m,n,dp)));
+    }
+};
