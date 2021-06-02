@@ -1,0 +1,27 @@
+
+# Longest Repeating Subsequence->https://practice.geeksforgeeks.org/problems/longest-repeating-subsequence2004/1#
+# Create one copy of the string and perform lcs on both, make one change, when str1[m-1]==str2[n-1] && m!=n. We have to find the chars which are appearing more than 1
+# Thus, they can be paired with the same char at diff index.
+
+class Solution {
+	public:
+	    int find(string text1,int m,int n,vector<vector<int>>& dp){
+        if(dp[m][n]!=-1)
+        {
+            return dp[m][n];
+        }
+        if(m<=0 || n<=0)
+            return dp[m][n]=0;
+        if(text1[m-1]==text1[n-1] && m!=n){
+            return(dp[m][n]=1+find(text1,m-1,n-1,dp));
+        }
+        return(dp[m][n]=max(find(text1,m,n-1,dp),find(text1,m-1,n,dp)));
+    }
+		int LongestRepeatingSubsequence(string str){
+		    int n=str.length();
+		    vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+		    return find(str,n,n,dp);
+		    
+		}
+
+};
