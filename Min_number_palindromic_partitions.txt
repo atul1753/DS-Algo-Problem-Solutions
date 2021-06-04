@@ -1,0 +1,78 @@
+
+# Min number of Palindromic partitions->https://leetcode.com/problems/palindrome-partitioning-ii/
+# Logic 1-> Traverse from i to j and check for partition each time
+
+class Solution {
+public:
+    bool ispali(string s,int i,int j){
+        int l=i,h=j;
+        while(l<h){
+            if(s[l]!=s[h])
+                return false;
+            l++;
+            h--;
+        }
+        return true;
+    }
+    int solve(string s,int i,int j,vector<vector<int>>&dp){
+        if(i>=j)
+            return 0;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(ispali(s,i,j))
+            return dp[i][j]=0;
+        int ans=INT_MAX;
+        for(int k=i;k<j;k++){
+            int temp=solve(s,i,k,dp)+solve(s,k+1,j,dp)+1;
+            ans=min(ans,temp);
+        }
+        return dp[i][j]=ans;
+    }
+    int minCut(string s) {
+        int n=s.length();
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        return solve(s,0,s.length()-1,dp);
+    }
+};
+
+# Logic 2-> check if i to k is palindrome or not, if it is, then got to check for k+1 to j. For checking pali use memoization
+class Solution {
+public:
+    
+    int dp[2001][2001];
+    int dp2[2001][2001];
+    bool palindrome(string &str,int i,int j){
+        if (i >= j) return 1;
+        if (dp2[i][j] != -1) return dp2[i][j];
+        if (str[i] == str[j]) return dp2[i][j] = palindrome(str, i + 1, j - 1);
+        return dp2[i][j] = 0;
+    }
+    
+    int backtrack(string &s,int start,int end)
+    {
+        if(start==end)
+        {
+            return 0;
+        }
+        if(palindrome(s,start,end)) return dp[start][end]=0;
+        if(dp[start][end]!=-1) return dp[start][end];
+        int cut=s.size()-1;
+        for(int i=start;i<=end;++i)
+        {
+            if(palindrome(s,start,i))
+            {
+                cut=min(cut,1+backtrack(s,i+1,end));
+                
+            }
+            
+        }
+        return dp[start][end]=cut;
+    }
+
+    int minCut(string s) {
+        memset(dp,-1,sizeof(dp));
+        memset(dp2,-1,sizeof(dp2));
+        return backtrack(s,0,s.size()-1);
+        
+        
+    }
