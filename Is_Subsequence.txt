@@ -1,0 +1,61 @@
+
+# Check if one string is subsequence of other->https://leetcode.com/problems/is-subsequence/
+# Logic 1-> Find LCS, if LCS == s.length(), then it is true.
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int m=s.length();
+        int n=t.length();
+        int dp[m+1][n+1];
+        for(int i=0;i<=n;i++)
+            dp[0][i]=0;
+        for(int i=0;i<=m;i++)
+            dp[i][0]=0;
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(s[i-1]==t[j-1])
+                    dp[i][j]=1+dp[i-1][j-1];
+                else
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+            }
+        }
+        if(dp[m][n]==m)
+            return true;
+        else
+            return false;
+    }
+};
+
+# Logic 2-> Using simple recursion, increment i only when you find that in str2
+
+class Solution {
+public:
+    bool solve(string s,string t,int i,int j,int m,int n){
+        if(i==m)
+            return true;
+        if(i>=m || j>=n)
+            return false;
+        if(s[i]==t[j])
+            return solve(s,t,i+1,j+1,m,n);
+        else
+            return solve(s,t,i,j+1,m,n);
+    }
+    bool isSubsequence(string s, string t) {
+        int m=s.length();
+        int n=t.length();
+        return(solve(s,t,0,0,m,n));
+    }
+};
+
+# Logic 3-> Simple Iteration
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int sLen = s.length(), sIdx = 0, tLen = t.length();
+    for (int i=0; i<tLen && sIdx<sLen; i++) 
+        if (t[i]==s[sIdx]) sIdx++;
+    return sIdx==sLen;
+    }
+};
