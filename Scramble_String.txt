@@ -1,0 +1,62 @@
+
+# Scramble String -> https://leetcode.com/problems/scramble-string/
+# Base is MCM, here for partition at each point, check two conditions, one by swapping i.e checking first part of s1 with last part of s2 of same length and same for 2nd part.
+# Second will be, check 1st part of s1 with 1st of s2 and same for 2nd part.
+# Recursive
+
+class Solution {
+public:
+    bool solve(string s1,string s2){
+        if(s1.compare(s2)==0)
+            return true;
+        if(s1.length()<=1)
+            return false;
+        int n=s1.length();
+        bool flag=false;
+        for(int i=1;i<=n-1;i++){
+            if((solve(s1.substr(0,i),s2.substr(n-i,i)) && solve(s1.substr(i,n-i),s2.substr(0,n-i))) || (solve(s1.substr(0,i),s2.substr(0,i)) && solve(s1.substr(i,n-i),s2.substr(i,n-i)))){
+                flag=true;
+                break;
+            }
+        }
+        return flag;
+    }
+    bool isScramble(string s1, string s2) {
+        if(s1.length()!=s2.length())
+            return false;
+        int n=s1.length();
+        return solve(s1,s2);
+    }
+};
+
+# Memoization
+# Make a map of string and bool and store values for all s1+_+s2 formed so that they can be reused at that partition.
+
+class Solution {
+public:
+    unordered_map<string,bool>m;
+    bool solve(string s1,string s2){
+        if(s1.compare(s2)==0)
+            return true;
+        if(s1.length()<=1)
+            return false;
+        string key=s1+"_"+s2;
+        if(m.find(key)!=m.end())
+            return m[key];
+        int n=s1.length();
+        bool flag=false;
+        for(int i=1;i<=n-1;i++){
+            if((solve(s1.substr(0,i),s2.substr(n-i,i)) && solve(s1.substr(i,n-i),s2.substr(0,n-i))) || (solve(s1.substr(0,i),s2.substr(0,i)) && solve(s1.substr(i,n-i),s2.substr(i,n-i)))){
+                flag=true;
+                break;
+            }
+        }
+        return m[key]=flag;
+    }
+    bool isScramble(string s1, string s2) {
+        if(s1.length()!=s2.length())
+            return false;
+        int n=s1.length();
+        return solve(s1,s2);
+    }
+};
