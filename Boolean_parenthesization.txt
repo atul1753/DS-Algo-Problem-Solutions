@@ -1,0 +1,54 @@
+
+# Boolean Parenthesization->https://practice.geeksforgeeks.org/problems/boolean-parenthesization5610/1#
+# Logic is to tarverse from 0 to n-1 and checking for each partition. Base logic is of MCM. k=k+2 while moving from i to j as we  only to visit operators.
+# Evertyime check for left(i,k-1) and right(k+1,j) and check for true and false of both. As for '|', T | F is also true. so for each k there will be 4 combinations.
+# True -> left, right and False -> left,right
+
+class Solution{
+public:
+    int dp[101][101][2];
+    int solve(string s,int i,int j,bool istrue){
+        if(i>j)
+            return false;
+        if(i==j){
+            if(istrue==true){
+                return (s[i]=='T');
+            }
+            else
+            return (s[i]=='F');
+        }
+         if(dp[i][j][istrue]!=-1)
+            return dp[i][j][istrue];
+        int ans=0;
+        for(int k=i+1;k<=j-1;k+=2){
+            int lt=solve(s,i,k-1,true);
+            int lf=solve(s,i,k-1,false);
+            int rt=solve(s,k+1,j,true);
+            int rf=solve(s,k+1,j,false);
+            if(s[k]=='^'){
+                if(istrue==true)
+                    ans+=lt*rf+lf*rt;
+                else
+                    ans+=lt*rt+lf*rf;
+            }
+             else if(s[k]=='&'){
+                 if(istrue==true)
+                    ans+=lt*rt;
+                else
+                    ans+=lt*rf+lf*rt+lf*rf;
+             }
+             else if(s[k]=='|'){
+                 if(istrue==true)
+                    ans+=lt*rt+lt*rf+lf*rt;
+                else
+                    ans+=lf*rf;
+             }
+             dp[i][j][istrue]=ans;
+        }
+        return ans;
+    }
+    int countWays(int N, string S){
+        memset(dp,-1,sizeof(dp));
+        return solve(S,0,N-1,true);
+    }
+};
