@@ -1,0 +1,24 @@
+
+# Maximum path sum between two leaf nodes -> https://practice.geeksforgeeks.org/problems/maximum-path-sum/1#
+# Here the only difference from max path sum question is we cannot check for max(l,r)+root->val,root->val as if we consider only root->val, it is not leaf to leaf.
+
+class Solution {
+public:
+    int solve(Node * root, int &res){
+        if(!root)
+            return 0;
+        int l=solve(root->left,res);
+        int r=solve(root->right,res);
+        int temp=max(l,r)+root->data;
+        int ans=max(temp,l+r+root->data);
+        res=max(res,ans);
+        return temp;
+    }
+    int maxPathSum(Node* root)
+    {
+        int res=INT_MIN;
+        solve(root,res);
+        return res;
+    }
+};
+ 
