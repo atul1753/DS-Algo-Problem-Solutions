@@ -1,0 +1,22 @@
+
+# Maximum Path sum in binary tree -> https://leetcode.com/problems/binary-tree-maximum-path-sum
+# There will be two conditions:- If the root is taking itself in ans and root is only considering it as part of ans and will return the possible max value
+
+class Solution {
+public:
+    int find(TreeNode*root,int& maxsum){
+        if(!root)
+            return 0;
+        int l=find(root->left,maxsum);
+        int r=find(root->right,maxsum);
+        int temp=max(max(l,r)+root->val,root->val);
+        int ans=max(temp,root->val+l+r);
+        maxsum=max(maxsum,ans);
+        return temp;
+    }
+    int maxPathSum(TreeNode* root) {
+        int maxsum=INT_MIN;
+        maxsum=max(maxsum,find(root,maxsum));
+        return maxsum;
+    }
+};
