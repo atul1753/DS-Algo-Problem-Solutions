@@ -1,0 +1,40 @@
+
+# Aggressive cows OR  Magnetic Force Between Two Balls. -> https://www.spoj.com/problems/AGGRCOW/, https://leetcode.com/problems/magnetic-force-between-two-balls/
+# This question is like a brother of Painter's partition problem, there we needed to minimize the maximum results, here we have to maximise the min temp results.
+# Find out the search space for binary search. The search space will be from 1 to (max-min)of array and just check for feasible numbers.
+
+class Solution {
+public:
+    bool ispossible(vector<int>&a,int dist,int m){
+        int c=1,i=1,curr=a[0];
+        while(i<a.size()){
+            if(abs(a[i]-curr)>=dist)
+            {
+                c++;
+                curr=a[i];
+            }
+            i++;
+        }
+        if(c>=m)
+            return true;
+        return false;
+    }
+    int maxDistance(vector<int>& position, int m) {
+        int low=1,hi;
+        sort(position.begin(),position.end());
+        hi=position[position.size()-1]-position[0];
+        cout<<hi;
+        int ans;
+        while(low<=hi){
+            int mid=(low+hi)/2;
+            if(ispossible(position,mid,m))
+            {
+                ans=mid;
+                low=mid+1;
+            }
+            else
+                hi=mid-1;
+        }
+        return ans;
+    }
+};
