@@ -1,0 +1,41 @@
+
+# Painter's partition OR Allocate Books OR Capacity to ship packages within d days -> https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/,
+# https://www.interviewbit.com/problems/allocate-books/, https://practice.geeksforgeeks.org/problems/the-painters-partition-problem1535/1
+# Logic is to find the range for binary search, it can be from max elem of array till sum of all elements as we have to minimize the max sum for each partition.
+
+class Solution
+{
+    public:
+    bool ispossible(int a[],int barrier,int days,int n){
+        int count=0,sum=0;
+        for(int i=0;i<n;i++){
+            if(sum+a[i]>barrier){
+                count++;
+                sum=a[i];
+                if(a[i]>barrier)return false;
+            }
+            else
+                sum+=a[i];
+        }
+        if(count<days)
+            return true;
+        return false;
+    }
+    long long minTime(int arr[], int n, int k)
+    {
+        long long hi=0,ans;
+        int low=INT_MIN;
+        for(int i=0;i<n;i++)
+            low=max(low,arr[i]),hi+=arr[i];
+        while(low<=hi){
+            int mid=(low+hi)/2;
+            if(ispossible(arr,mid,k,n)){
+                ans=mid;
+                hi=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return ans;
+    }
+};
