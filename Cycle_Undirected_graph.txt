@@ -1,0 +1,77 @@
+
+# Detect cycle in undirected graph -> https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1#
+# Base logic is while traversing maintain prev or parent node and then after that if you find a node which is visited and != parent or prev, then there is a cycle
+# DFS
+
+class Solution 
+{
+    public:
+    bool checkForCycle(int node, int parent, vector<int> &vis, vector<int> adj[]) {
+        vis[node] = 1; 
+        for(auto it: adj[node]) {
+            if(!vis[it]) {
+                if(checkForCycle(it, node, vis, adj)) 
+                    return true; 
+            }
+            else if(it!=parent) 
+                return true; 
+        }
+        
+        return false; 
+    }
+	bool isCycle(int V, vector<int>adj[])
+	{
+	    vector<int> vis(V, 0);
+	    for(int i=0;i<V;i++){
+	        if(!vis[i])
+	        {
+	           if(checkForCycle(i, -1, vis, adj)) return true; 
+	        }
+	    }
+	    return false;
+	}
+};
+
+# BFS
+
+class Solution 
+{
+    public:
+    bool bfs(int i,vector<int> adj[],vector<bool>&vis){
+        queue<pair<int,int>>q;
+	    q.push({i,-1});
+	    vis[i]=1;
+	    while(!q.empty()){
+	        pair<int,int>temp=q.front();
+	        q.pop();
+	        int v=temp.first;
+	        int prev=temp.second;
+	        for(auto it:adj[v]){
+	            if(!vis[it])
+	            {
+	                q.push({it,v});
+	                vis[it]=true;
+	            }
+	            else{
+	                if(it!=prev)
+	                    return true;
+	            }
+	        }
+	    }
+	    return false;
+    }
+	bool isCycle(int V, vector<int>adj[])
+	{
+	    vector<bool>vis(V,false);
+	    for(int i=0;i<V;i++){
+	        if(!vis[i]){
+	        if(bfs(i,adj,vis))
+	            {
+	               // cout<<i<<" ";
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
+};
