@@ -1,0 +1,65 @@
+
+# Topological Sort in Directed Acyclic Graph -> https://practice.geeksforgeeks.org/problems/topological-sort/1#
+# You have to take care that all the parents come before children
+# Using DFS -> Perform normal dfs and at end of each call push this in stack, in this way all the children will be pushed first.
+
+class Solution
+{
+	public:
+	void dfs(int i,vector<bool>&vis,stack<int>&s,vector<int>adj[]){
+	    vis[i]=true;
+	    for(auto it:adj[i]){
+	        if(!vis[it])
+	            dfs(it,vis,s,adj);
+	    }
+	    s.push(i);
+	} 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    vector<int>res;
+	    vector<bool>vis(V,false);
+	    stack<int>s;
+	    for(int i=0;i<V;i++){
+	        if(!vis[i])
+	            dfs(i,vis,s,adj);
+	    }
+	    while(!s.empty()){
+	        res.push_back(s.top());
+	        s.pop();
+	    }
+	    return res;
+	}
+};
+
+# Using BFS(Kahn' algo)
+# This is also very simple. find indegree of all nodes and maintain a queue after that. All the nodes which have indegree 0 are by default parents, push them in queue and print them
+# After processing each adjacent node, reduce it's indegree by 1 as it is done for that node, after reducing if it becomes 0, then add it to queue.
+
+class Solution
+{
+	public:
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    vector<int>res;
+	    vector<int>in(V,0);
+	    queue<int>q;
+	    for(int i=0;i<V;i++){
+	        for(auto it:adj[i])
+	            in[it]++;
+	    }
+	    for(int i=0;i<in.size();i++){
+	        if(in[i]==0)
+	            q.push(i);
+	    }
+	    while(!q.empty()){
+	        int t=q.front();
+	        res.push_back(t);
+	        q.pop();
+	        for(int i=0;i<adj[t].size();i++){
+	            if(--in[adj[t][i]]==0)
+	                q.push(adj[t][i]);
+	        }
+	    }
+	    return res;
+	}
+};
