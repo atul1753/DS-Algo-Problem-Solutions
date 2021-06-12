@@ -1,0 +1,85 @@
+
+# Is graph bipartite? -> https://leetcode.com/problems/is-graph-bipartite/submissions/
+# Here we have to check if we can color all adjacent nodes with 2 different colors.
+# We can do this with both bfs and dfs with the same logic. Maintain a color array for all vertices. Fill them with different colors. If you come
+# across a vertex which is already colored with the same color then return false;
+# BFS
+
+class Solution {
+public:
+    bool bfs(int i,vector<int>&color,vector<vector<int>>&graph){
+    queue<int>q;
+        q.push(i);
+        color[i]=0;
+        while(!q.empty()){
+            int t=q.front();
+            q.pop();
+            for(auto it:graph[t]){
+                if(color[it]==-1){
+                    q.push(it);
+                    if(color[t]==1)
+                        color[it]=0;
+                    else
+                        color[it]=1;
+                }
+                else
+                {
+                    if(color[it]==color[t])
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<int>color(graph.size(),-1);
+        for(int i=0;i<graph.size();i++){
+            if(color[i]==-1){
+                if(!bfs(i,color,graph))
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+
+# DFS
+
+class Solution {
+public:
+    bool dfs(int i,vector<int>&color,vector<vector<int>>&graph,int parent){
+        if(parent==-1)
+            color[i]=0;
+        if(parent!=-1 && color[i]==-1){
+            if(color[parent]==0)
+                color[i]=1;
+            else
+                color[i]=0;
+        }
+        for(auto it:graph[i]){
+            if(color[it]==-1){
+                if(!dfs(it,color,graph,i))
+                {
+                    return false;
+                }
+            }
+            else{
+                if(color[it]==color[i])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<int>color(graph.size(),-1);
+        for(int i=0;i<graph.size();i++){
+            if(color[i]==-1){
+                if(!dfs(i,color,graph,-1))
+                    return false;
+            }
+        }
+        return true;
+    }
+};
