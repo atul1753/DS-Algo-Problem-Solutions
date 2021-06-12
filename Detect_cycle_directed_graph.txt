@@ -1,0 +1,77 @@
+
+# Detect cycle in directed graph -> https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1#, https://leetcode.com/problems/course-schedule/
+# Using DFS, for this maintain two arrays, one for visited and other for visited in current recusrion, if you find a node which is already visited in current recursion, then
+# it means that there is a cycle in the graph
+
+class Solution
+{
+    public:
+	bool dfs(int i,vector<int>adj[],vector<bool>&vis,vector<bool>&rec){
+	    vis[i]=true;
+	    rec[i]=true;
+	    for(auto it:adj[i]){
+	        if(!vis[it]){
+	            if(dfs(it,adj,vis,rec))
+	                return true;
+	        }
+	        else{
+	            if(rec[it])
+	                return true;
+	        }
+	    }
+	    rec[i]=false;
+	    return false;
+	}
+	bool isCyclic(int V, vector<int> adj[]) 
+	{
+	   	vector<bool>vis(V,false);
+	   	vector<bool>rec(V,false);
+	   	for(int i=0;i<V;i++){
+	   	    if(!vis[i])
+	   	    {
+	   	        if(dfs(i,adj,vis,rec))
+	   	            return true;
+	   	    }
+	   	}
+	   	return false;
+	}
+};
+
+# Using BFS(Kahn's Algo)
+# We know that Kahn's algo works only for Directed acyclic graph, so we can use this. If at the end of our traversal if the count of traversed nodes is != total 
+# nodes, this means that there is a cycle in the graph.
+
+class Solution {
+public:
+  
+    bool canFinish(int n, vector<vector<int>>& prerequisites) {
+        vector<int> adj[n],in(n,0);
+        
+        for(auto v: prerequisites)
+        {
+            adj[v[0]].push_back(v[1]);
+            in[v[1]]++;
+        }
+        
+        queue<int> q;
+        for(int i=0;i<n;i++)
+            if(in[i]==0)
+                q.push(i);
+        
+        vector<int> ans;
+        while(!q.empty())
+        {
+            int curr=q.front();
+            q.pop();
+            ans.push_back(curr);
+            for(auto child:adj[curr])
+            {
+                in[child]--;
+                if(in[child]==0)
+                    q.push(child);
+            }
+        }
+        
+        return ans.size()==n;
+    }
+};
