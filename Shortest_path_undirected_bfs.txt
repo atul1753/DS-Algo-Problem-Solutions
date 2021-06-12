@@ -1,0 +1,29 @@
+
+# Shortest Path in Undirected graph
+# Using BFS, make an array for storing distance. Start from the starting point, and at each point,check if the current ditance is smaller than prev one or not
+# If that's the case, then add it in queue.
+
+void BFS(vector<int> adj[], int N, int src) 
+{ 
+	int dist[N];
+	for(int i = 0;i<N;i++) dist[i] = INT_MAX; 
+	queue<int>  q;
+	
+	dist[src] = 0;
+	q.push(src); 
+
+	while(q.empty()==false) 
+	{ 
+		int node = q.front(); 
+		q.pop();
+		 
+		for(auto it:adj[node]){
+		    if(dist[node] + 1 < dist[it]){
+		        dist[it]=dist[node]+1;
+		        q.push(it);
+		    }
+		} 
+	} 
+	for(int i = 0;i<N;i++) cout << dist[i] << " "; 
+	
+} 
