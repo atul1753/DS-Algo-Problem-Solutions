@@ -1,0 +1,25 @@
+
+# Minimum swaps for bracket balancing -> https://practice.geeksforgeeks.org/problems/minimum-swaps-for-bracket-balancing2704/1
+# Eg. Input  : []][][
+# Output : 2
+# Logic is to maintain two counters for left bracket '[' and right counter for ']' and check for imbalance i.e right-left. whenever there is imbalance we need to swap and decrement
+# the imbalance.
+
+int minimumNumberOfSwaps(string S){
+        int cl=0,cr=0,im=0,swap=0;
+        for(int i=0;i<S.length();i++){
+            if(S[i]=='[')
+            {
+                cl++;
+                if(im>0){
+                    swap+=(im);
+                    im--;
+                }
+            }
+            else if(S[i]==']'){
+                cr++;
+                im=cr-cl;
+            }
+        }
+        return swap;
+    }
