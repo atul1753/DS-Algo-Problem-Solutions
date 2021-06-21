@@ -1,0 +1,26 @@
+
+# Next Greater ELment II -> https://leetcode.com/problems/next-greater-element-ii/
+# Input: nums = [1,2,1]
+# Output: [2,-1,2]
+# Here imagine the array to be circular, so next greater elem can be praesent on left also.
+# For this, take the same elems and add them after the last ind. eg 1,2,1 will be -> 1,2,1,1,2,1 and perform the same logic of stacks here.
+# There is no need to create new array, use i%n for accessing elems > n-1.
+
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        stack<int>s;
+        int n=nums.size();
+        vector<int>res(nums.size(),-1);
+        for(int i=(2*n-1);i>=0;i--){
+            while(!s.empty() && nums[i%n]>=s.top())
+                s.pop();
+            if(i<n){
+                if(!s.empty())
+                    res[i]=s.top();
+            }
+            s.push(nums[i%n]);
+        }
+        return res;
+    }
+};
