@@ -1,0 +1,27 @@
+
+# Generate Parentheses -> https://leetcode.com/problems/generate-parentheses/
+# Eg. Input: n = 3
+# Output: ["((()))","(()())","(())()","()(())","()()()"]
+# Logic -> Obviously recursion. There are only two choices, either add '(' or add ')'. In recusrion do this only and parallely check for valid by having a count
+# which increments with ( and decrements with ). So at last if count is 0, then it is valid.
+
+class Solution {
+public:
+    void generate(int n,int main_count,int count,vector<string>&res,string op){
+        if(count<0 || count>n)
+            return;
+        if(main_count==(2*n)){
+            if(count==0)
+                res.push_back(op);
+            return;
+        }
+        generate(n,main_count+1,count+1,res,op+"(");
+        generate(n,main_count+1,count-1,res,op+")");
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string>res;
+        string op;
+        generate(n,0,0,res,op);
+        return res;
+    }
+};
