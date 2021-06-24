@@ -1,5 +1,5 @@
 
-#Majority element II (>n/3)
+#Majority element II (>n/3) -> https://leetcode.com/problems/majority-element-ii/
 #Boyer Moore Voting Algorithm
 
 class Solution {
