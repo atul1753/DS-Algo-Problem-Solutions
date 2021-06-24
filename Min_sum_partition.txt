@@ -6,23 +6,27 @@
 # Subsets 
 # Similar logic as that of palindromic partioning, for each ind, iterate from ind till end.
 
-class Solution {
-public:
-    void find(int ind, vector<vector<int>>& ans, vector<int>& nums, vector<int>& ds){
-        ans.push_back(ds);
-        for(int i=ind;i<nums.size();i++){
-            if(i!=ind && nums[i]==nums[i-1])
-                continue;
-            ds.push_back(nums[i]);
-            find(i+1,ans,nums,ds);
-            ds.pop_back();
-        }
-    }
-    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        vector<vector<int>>ans;
-        sort(nums.begin(),nums.end());
-        vector<int>ds;
-        find(0,ans,nums,ds);
-        return ans;
-    }
-};  
+class Solution{
+
+	public:
+	int find(int arr[],int ind,int sum,int total_sum,vector<vector<int>>&dp){
+	   if(ind==0)
+	    {
+	        return (dp[ind][sum]=abs(total_sum-(2*sum)));
+	    }
+	    if(dp[ind][sum]!=-9999)
+	    {
+	        return dp[ind][sum];
+	    }
+	   return(dp[ind][sum]=min(find(arr,ind-1,sum+arr[ind-1],total_sum,dp),find(arr
+	   ,ind-1,sum,total_sum,dp)));
+	}
+	int minDiffernce(int arr[], int n) 
+	{ 
+	    int sum=0;
+	    for(int i=0;i<n;i++)
+	    sum+=arr[i];
+	    vector<vector<int>>dp(n+1,vector<int>(sum+1,-9999));
+	    return find(arr,n,0,sum,dp);
+	} 
+};
