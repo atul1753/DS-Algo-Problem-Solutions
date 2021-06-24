@@ -1,5 +1,5 @@
 
-# Minimum Sum Partition
+# Minimum Sum Partition -> https://practice.geeksforgeeks.org/problems/minimum-sum-partition3317/1
 # Logic-> We have to minimize S2-S1, S2=Total_sum-S1, therefore, we have to minimize total_sum-2*S1
 
 # Memoized
