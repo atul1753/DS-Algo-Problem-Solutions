@@ -1,5 +1,5 @@
 
-# N Queens
+# N Queens -> https://leetcode.com/problems/n-queens/
 # Start column wise, and try to fill each pos with Q if it is safe.
 
 class Solution {
