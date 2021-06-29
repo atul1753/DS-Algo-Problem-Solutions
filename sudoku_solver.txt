@@ -1,5 +1,5 @@
 
-# Sudoku Solver
+# Sudoku Solver -> https://leetcode.com/problems/sudoku-solver/
 # Check for each empty elem for 1 to 9 if any is valid, then recursively call again for the whole board, if it returns false then again make it empty.
 # Look it as 3 step process-> check for empty-> check for 1 to 9-> if it is valid then again do the same thing. if you have moved from 1 to 9 and all are invalid, then return false 
 # from there as this can not be a solution
