@@ -1,5 +1,5 @@
 
-#Stock but sell(single day)
+#Stock buy sell(single day) -> https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 #O(nlogn) approach using merge sort
 
 class Solution {
