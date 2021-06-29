@@ -1,6 +1,6 @@
 
-#Rotate matrix by 90 degrees
-#Transpose the natrix and then reverse each row
+#Rotate matrix by 90 degrees -> https://www.interviewbit.com/problems/rotate-matrix/
+#Transpose the matrix and then reverse each row
 
 class Solution {
 public:
