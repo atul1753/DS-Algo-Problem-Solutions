@@ -1,5 +1,5 @@
 
-# Count of number of subarrays with xor k
+# Count of number of subarrays with xor k -> https://www.geeksforgeeks.org/count-number-subarrays-given-xor/
 # maintain array of prefix xor(xor from 0 to i), maintain a map of all prefix xors in map and their count.
 # At any place if xor == k increment counter, or if xor^k is present in map, then increment counter by that number of times as that number of subarraya will be present 
 # in between 0,i
