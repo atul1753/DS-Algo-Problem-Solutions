@@ -1,5 +1,5 @@
 
-# Best time to buy and sell stock (1 time)
+# Best time to buy and sell stock (1 time) -https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
 
 class Solution {
 public:
