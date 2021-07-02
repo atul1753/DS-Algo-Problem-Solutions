@@ -1,5 +1,5 @@
 
-#Pascal's Triangle
+#Pascal's Triangle -> https://leetcode.com/problems/pascals-triangle/
 #for printing all
 class Solution {
 public:
