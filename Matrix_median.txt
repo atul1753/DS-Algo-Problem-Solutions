@@ -1,0 +1,23 @@
+
+# Matrix Median -> https://www.interviewbit.com/problems/matrix-median/
+# Use Binary search and find the search space. for each median check how many elems are > it and how many are less than it. Use this property has median has equal
+# number of elems on both sides.
+
+int Solution::findMedian(vector<vector<int> > &A) {
+    int high=1e9;
+    int low=1;
+    int c=(A.size()*(A[0].size()));
+    c=c/2;
+    while(low<=high){
+        int mid=(low+high)/2;
+        int cnt=0;
+        for(int i=0;i<A.size();i++){
+            cnt+=(upper_bound(A[i].begin(),A[i].end(),mid)-A[i].begin());
+        }
+        if(cnt<=c)
+            low=mid+1;
+        else
+            high=mid-1;
+    }
+    return low;
+}
