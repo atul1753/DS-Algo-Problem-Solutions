@@ -1,5 +1,5 @@
 
-# Remove duplicates from sorted array
+# Remove duplicates from sorted array -> https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 # O(n) and O(1)
 
 class Solution {
