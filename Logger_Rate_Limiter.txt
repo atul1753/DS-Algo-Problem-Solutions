@@ -1,0 +1,32 @@
+# Logger Rate Limiter -> https://leetcode.com/problems/logger-rate-limiter/
+# Create a queue and a set. Everytime, keep removing from queue and set until time-q.time>=10. After this check if entry is presnt in set or not.
+class Logger {
+public:
+    Logger() {
+        
+    }
+    queue<pair<string, int>>q;
+    set<string>s;
+    
+    bool shouldPrintMessage(int timestamp, string message) {
+        
+        while(!q.empty()){
+            pair<string, int> temp = q.front();
+            if(timestamp - temp.second >= 10){
+                q.pop();
+                s.erase(temp.first);
+            }else
+                break;
+        }
+        if(s.find(message)==s.end()){
+            pair<string, int> tep;
+            tep.first = message;
+            tep.second = timestamp;
+            q.push(tep);
+            s.insert(message);
+            return true;
+        }else{
+            return false;
+        }
+    }
+};

@@ -1,0 +1,25 @@
+# Maximum Number of Occurrences of a Substring -> https://leetcode.com/problems/maximum-number-of-       
+# occurrences-of-a-substring/
+# Here the logic is sliding window. Take two poitners initially both of them are at 0. Start
+# increamenting the pointer, keep count of all unqiue chars in that window and also keep check
+# for minSize as the max result will not be for any substr of size >minSize.
+
+class Solution {
+public:
+    int maxFreq(string s, int maxLetters, int minSize, int maxSize) {
+        unordered_map<string,int>m;
+        int unique=0,res=0;
+        vector<int>cnt(26,0);
+        int i=0,j=0;
+        while(j<s.length()){
+            if(++cnt[s[j++]-'a']==1)unique++;
+            while(unique>maxLetters || j-i>minSize){
+                if(--cnt[s[i++]-'a']==0)
+                    unique--;
+            }
+            if(j-i==minSize)
+            res=max(res,++m[s.substr(i,minSize)]);
+        }
+        return res;
+    }
+};

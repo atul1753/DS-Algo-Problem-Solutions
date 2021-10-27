@@ -1,0 +1,25 @@
+# Rank Teams by votes
+# https://leetcode.com/problems/rank-teams-by-votes/
+# Logic is to create a 2d array of size 26x27. At first the 26 indices signify the 26 characters
+# and inside that vector, there is a vector which contains the ranks at those individual places along
+# with the charactyer at 27 th place. Sort this and add the 27th char at end of the res.
+
+class Solution {
+public:
+    string rankTeams(vector<string>& votes) {
+        vector<vector<int>>count(26,vector<int>(27));
+        for(int i=0;i<votes[0].length();i++){
+            count[votes[0][i]-'A'][26]=votes[0][i];
+        }
+        for(int i=0;i<votes.size();i++){
+            for(int j=0;j<votes[i].length();j++){
+                --count[votes[i][j]-'A'][j];
+            }
+        }
+        sort(count.begin(),count.end());
+        string res;
+        for(int i=0;i<votes[0].length();i++)
+            res+=count[i][26];
+        return res;
+    }
+};

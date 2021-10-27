@@ -1,0 +1,21 @@
+# Finding the Users Active Minutes
+# https://leetcode.com/problems/finding-the-users-active-minutes/
+# Key logic is using a map with key as id and value as set. Size of set will calculate the active 
+# minutes
+
+class Solution {
+public:
+    vector<int> findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
+        map<int,set<int>>m;
+        for(auto it:logs){
+            for(int i=0;i<it.size();i++){
+                m[it[0]].insert(it[1]);
+            }
+        }
+        vector<int>res(k,0);
+        for(auto it:m){
+            res[it.second.size()-1]++;
+        }
+        return res;
+    }
+};
