@@ -1,0 +1,26 @@
+# Beautiful Arrangement -> https://leetcode.com/problems/beautiful-arrangement/
+# Brute force is to calculate all permutations and then check if they are beautiful. We can 
+# optimize this by only calling the recusrsion when the condition is getting satisfied for 
+# the given condition
+
+class Solution {
+public:
+    void permute(vector<int>&v,int ind,int& count){
+        if(ind==v.size())
+            count++;
+        for(int i=ind;i<v.size();i++){
+        swap(v[i],v[ind]);
+        if(v[ind]%(ind+1)==0 || (ind+1)%v[ind]==0)
+            permute(v,ind+1,count);
+        swap(v[i],v[ind]);
+        }
+    }
+    int countArrangement(int n) {
+        vector<int>v;
+        for(int i=1;i<=n;i++)
+            v.push_back(i);
+        int count=0;
+        permute(v,0,count);
+        return count;
+    }
+};

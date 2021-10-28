@@ -1,0 +1,14 @@
+# Consecutive Numbers Sum -> https://leetcode.com/problems/consecutive-numbers-sum/
+# For consecutive numbers, N=(x+1)+(x+2)+....(x+k)
+# N=xk+(k(k+1)/2), therefore xk=N-(k(k+1)/2), so for all k if(N-(k(k+1)/2)%k==0, this means that this is one solution.
+
+class Solution {
+public:
+    int consecutiveNumbersSum(int N) {
+        int count = 1;
+        for( int k = 2; k < sqrt( 2 * N ); k++ ) {
+            if ( ( N - ( k * ( k + 1 )/2) ) % k == 0) count++;
+        }
+        return count;
+    }
+};
