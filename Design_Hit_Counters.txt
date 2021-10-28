@@ -1,0 +1,23 @@
+# Design Hit Counter -> https://leetcode.com/problems/design-hit-counter/
+# Create a vector and utilize the fact that timestamps will alsways be increasing.
+
+class HitCounter {
+public:
+    vector<int>v;
+    HitCounter() {
+        
+    }
+    
+    void hit(int timestamp) {
+        v.push_back(timestamp);
+    }
+    
+    int getHits(int timestamp) {
+        if(timestamp-300<=0)
+            return v.size();
+        else{
+        int pos=upper_bound(v.begin(),v.end(),timestamp-300)-v.begin();
+        return(v.size()-pos);
+        }
+    }
+};
