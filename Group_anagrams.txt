@@ -1,0 +1,24 @@
+# Group Anagrams -> https://leetcode.com/problems/group-anagrams/
+# Logic is to create a map with key as string formed from count of all 26 characters. then anagrams will have the same  key.
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> groups;
+        for (const string& str : strs)
+            groups[getKey(str)].push_back(str);
+
+        vector<vector<string>> ans;
+        for (const auto& p : groups)
+            ans.push_back(p.second);
+        return ans;
+    }
+    string getKey(const string& str) {
+        int cnt[26] = {0};
+        for (char c : str) cnt[c - 'a']++;
+        string key;
+        for (int i = 0; i < 26; ++i)
+            if (cnt[i] > 0)
+                key += to_string(cnt[i]) + char(i + 'a');
+        return key;
+    }
+};
