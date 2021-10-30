@@ -1,0 +1,55 @@
+#Median of stream of integers -> Design problem -> https://leetcode.com/problems/find-median-from-data-stream/
+# Logic is to create min heap and max heap and always try to # push the smaller lem in max heap and min element in mein heap.
+
+class MedianFinder {
+public:
+    priority_queue<double>pq1;
+    priority_queue<double,vector<double>,greater<double>>pq2;
+    double median;
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        double x=double(num);
+        if(pq1.empty() && pq2.empty())
+            pq1.push(double(num)),median=double(num);
+        
+        else if(pq1.size()>pq2.size()){
+            if(x<median){
+                pq2.push(pq1.top());
+                pq1.pop();
+                pq1.push(x);
+            }
+            else
+                pq2.push(x);
+            median=(pq1.top()+pq2.top())/2.0;
+        }
+        else if(pq1.size()==pq2.size()){
+            if(x<median)
+            {
+                pq1.push(x);
+                median=pq1.top();
+            }
+            else{
+                pq2.push(x);
+                median=pq2.top();
+            }
+        }
+        else{
+            if(x>median){
+                pq1.push(pq2.top());
+                pq2.pop();
+                pq2.push(x);
+            }
+            else
+                pq1.push(x);
+            median=(pq1.top()+pq2.top())/2.0;
+        }
+        
+    }
+    
+    double findMedian() {
+        return median;
+    }
+};

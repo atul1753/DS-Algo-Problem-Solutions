@@ -1,0 +1,37 @@
+# Get Min Stack in O(1) -> Design problem ->https://leetcode.com/problems/min-stack/
+# Logic is to create two stacks
+
+class MinStack {
+public:
+    stack<int>s_main;
+    stack<int>s_min;
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        s_main.push(val);
+        if(s_min.empty())
+            s_min.push(val);
+        else if(!s_min.empty()&&s_min.top()>=val)
+            s_min.push(val);
+        
+    }
+    
+    void pop() {
+        if(!s_main.empty()){
+            int temp=s_main.top();
+            s_main.pop();
+            if(temp==s_min.top())
+                s_min.pop();
+        }
+    }
+    
+    int top() {
+        return(s_main.top());
+    }
+    
+    int getMin() {
+        return(s_min.top());
+    }
+};
