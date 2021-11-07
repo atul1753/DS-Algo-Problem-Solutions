@@ -1,0 +1,19 @@
+# Root to leaf path sum -> https://practice.geeksforgeeks.org/problems/root-to-leaf-path-sum/
+# Simple recursion, check for sum to be 0 at leaf.
+
+class Solution
+{
+    public:
+    bool hasPathSum(Node *root, int S) {
+    bool left1,right1;
+    if(!root->left && !root->right)
+    return (S-root->data==0);
+    if(root->left)
+    left1=hasPathSum(root->left,S-root->data);
+    if(root->right)
+    right1=hasPathSum(root->right,S-root->data);
+    if(left1||right1)
+    return true;
+    return false;
+}
+};
